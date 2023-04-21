@@ -1,25 +1,25 @@
 <template>
     <div class="quiz">
-      <slide
+      <GameQuizSlide
         v-for="(game, index) in games"
         :key="index"
         :game="game"
         v-show="index === currentSlideIndex"
         :on-answer="onNextSlide"
         :on-skip="onNextSlide"
-      ></slide>
+      ></GameQuizSlide>
     </div>
   </template>
   
 <script lang="ts">
 import { ref, defineComponent, onMounted } from 'vue';
-import Slide from './Slide.vue';
-import { getRandomGames } from '../api/igdb';
+import GameQuizSlide from './Slide.vue';
+import { getRandomGames } from '../api/rawg';
 
 export default defineComponent({
     name: 'GameQuiz',
   components: {
-    Slide,
+    GameQuizSlide,
   },
   setup() {
     const games = ref([]);
@@ -27,6 +27,7 @@ export default defineComponent({
 
     onMounted(async () => {
       games.value = await getRandomGames();
+      console.log(games)
     });
 
     const onNextSlide = () => {
