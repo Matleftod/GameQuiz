@@ -4,10 +4,13 @@
         v-for="(game, index) in games"
         :key="index"
         :game="game"
+        :slideIndex="currentSlideIndex"
+        :isLastSlide="currentSlideIndex === games.length - 1"
         v-show="index === currentSlideIndex"
         :on-answer="onNextSlide"
         :on-skip="onNextSlide"
         :on-prev="onPrevSlide"
+        :on-finish="handleFinish"
       ></GameQuizSlide>
     </div>
   </template>
@@ -35,7 +38,6 @@ export default defineComponent({
 
     onMounted(async () => {
       games.value = await getRandomGames();
-      console.log(games.value);
     });
 
     const onNextSlide = () => {
@@ -46,11 +48,16 @@ export default defineComponent({
       currentSlideIndex.value--;
     };
 
+    const handleFinish = () => {
+      console.log('finito');
+    };
+
     return {
       games,
       currentSlideIndex,
       onNextSlide,
       onPrevSlide,
+      handleFinish,
     };
   },
 });

@@ -4,10 +4,11 @@
         <h2>{{ game.name }}</h2>
         <img :src="game.screenshot" alt="Screenshot" v-if="game.screenshot" class="game-screenshot"/>
         <div class="buttons">
-            <button @click="lastQuestion">Précédente</button>
+            <button v-if="!isFirstSlide" @click="lastQuestion">Précédente</button>
             <input type="text" v-model="userInput" placeholder="Entrez le titre du jeu">
             <button @click="submitAnswer">Soumettre</button>
-            <button @click="skipQuestion">Passer</button>
+            <button v-if="!isLastSlide" @click="skipQuestion">Passer</button>
+            <button v-else @click="finishQuiz">Terminer</button>
         
             <!-- Afficher les indices -->
             <button @click="showHint">Afficher un indice supplémentaire</button>
@@ -19,23 +20,36 @@
   </template>
   
   <script lang="ts">
-  import { ref, defineComponent } from 'vue';
+  import { ref, defineComponent, computed } from 'vue';
   
   export default defineComponent({
     name: 'GameQuizSlide',
     props: {
-        game: {
-            type: Object,
-            required: true,
-        },
+      game: {
+          type: Object,
+          required: true,
+      },
       onAnswer: Function,
       onSkip: Function,
       onPrev: Function,
+      onFinish: Function,
+      slideIndex: {
+        type: Number,
+        required: true,
+      },
+      isLastSlide: {
+        type: Boolean,
+        required: true,
+      },
     },
     setup(props) {
       const userInput = ref('');
       const currentHintIndex = ref(0);
       const hints = ref(['Éditeur', 'Plateforme']); // Remplacer par les indices réels
+
+      const isFirstSlide = computed(() => {
+        return props.slideIndex === 0;
+      });
   
       const submitAnswer = () => {
         if (props.onAnswer) {
@@ -55,20 +69,28 @@
         if (props.onPrev) {
           props.onPrev();
         }
-      }
+      };
   
       const showHint = () => {
         currentHintIndex.value++;
+      };
+
+      const finishQuiz = () => {
+        if (props.onFinish) {
+          props.onFinish();
+        }
       };
   
       return {
         userInput,
         currentHintIndex,
         hints,
+        isFirstSlide,
         submitAnswer,
         skipQuestion,
         lastQuestion,
         showHint,
+        finishQuiz,
       };
     },
   });
