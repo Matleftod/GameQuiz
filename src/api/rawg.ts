@@ -46,3 +46,41 @@ export async function getRandomGames(limit = 30): Promise<Game[]> {
   const games = await Promise.all(gamePromises);
   return games;
 }
+
+export async function getPopularGames(
+    limit = 12,
+    page = 1,
+    search = ''
+  ): Promise<Game[]> {
+  const response = await axios.get(
+    `https://api.rawg.io/api/games?key=${apiKey}&page=${page}&page_size=${limit}&search=${search}`
+  );
+
+  const gamePromises = response.data.results.map(async (game: any) => {
+    const gameId = game.id;
+    const gameDetailsResponse = await axios.get(
+      `https://api.rawg.io/api/games/${gameId}?key=${apiKey}`
+    );
+
+    console.log(gameDetailsResponse)
+
+    const editor = gameDetailsResponse.data.publishers[0]?.name || 'Inconnu';
+    const platformNames = gameDetailsResponse.data.parent_platforms
+      .map((parent_platform: any) => parent_platform.platform.name)
+      .join(', ');
+
+    return {
+      id: gameId,
+      name: game.name,
+      screenshot: game.background_image,
+      editor,
+      platform: platformNames,
+    };
+  });
+
+  return Promise.all(gamePromises);
+}
+
+
+
+
