@@ -34,5 +34,6 @@ export default defineComponent({
 <style scoped>
 .result{
   color: white;
+  text-align: center;
 }
 </style>
