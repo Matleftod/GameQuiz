@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 export const useGameStore = defineStore('game', {
   // État
   state: () => ({
-    // Votre état ici
+    correctAnswers: 0,
   }),
 
   // Getters
@@ -13,6 +13,8 @@ export const useGameStore = defineStore('game', {
 
   // Actions
   actions: {
-    // Vos actions ici
+    setCorrectAnswers(value: number) {
+      this.correctAnswers = value;
+    },
   },
 });

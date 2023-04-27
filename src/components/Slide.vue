@@ -1,7 +1,7 @@
 <template>
     <div class="slide" :class="{ 'correct-answer': isAnswerCorrect }">
         <!-- Afficher l'indice principal -->
-        <!--<h2>{{ game.name }}</h2>-->
+        <h2>{{ game.name }}</h2>
         <img :src="game.screenshot" alt="Screenshot" v-if="game.screenshot" class="game-screenshot"/>
         <div class="error_msg">
           <div v-if="errorMessage">{{ errorMessage }}</div>
@@ -22,7 +22,7 @@
             <button v-if="!isFirstSlide" @click="lastQuestion">Précédente</button>
 
             <button v-if="!isLastSlide" @click="skipQuestion">Passer</button>
-            <button v-else @click="finishQuiz">Terminer</button>
+            <button @click="finishQuiz">Terminer</button>
         </div>
     </div>
   </template>
