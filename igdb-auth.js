@@ -22,7 +22,6 @@ async function getAccessToken(clientId, clientSecret) {
     const clientSecret = 'f7asfrzo5xef7qoay8hc12lzx8si29';
   
     const authData = await getAccessToken(clientId, clientSecret);
-    console.log(authData);
 })();
 /*  
 {
