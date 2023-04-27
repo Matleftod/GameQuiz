@@ -1,14 +1,21 @@
 <template>
-    <div class="slide">
+    <div class="slide" :class="{ 'correct-answer': isAnswerCorrect }">
         <!-- Afficher l'indice principal -->
         <h2>{{ game.name }}</h2>
         <img :src="game.screenshot" alt="Screenshot" v-if="game.screenshot" class="game-screenshot"/>
         <div class="buttons">
             <button v-if="!isFirstSlide" @click="lastQuestion">Précédente</button>
-            <input type="text" v-model="userInput" placeholder="Entrez le titre du jeu">
-            <button @click="submitAnswer">Soumettre</button>
+            <div v-if="errorMessage">{{ errorMessage }}</div>
+
+            <template v-if="!answerFound">
+              <input type="text" v-model="userInput" placeholder="Entrez le titre du jeu">
+              <button @click="submitAnswer">Soumettre</button>
+            </template>
+            <div v-else>{{ game.name }}</div>
+
             <button v-if="!isLastSlide" @click="skipQuestion">Passer</button>
             <button v-else @click="finishQuiz">Terminer</button>
+            
         
             <!-- Afficher les indices -->
             <button @click="showHint">Afficher un indice supplémentaire</button>
@@ -20,7 +27,7 @@
   </template>
   
   <script lang="ts">
-  import { ref, defineComponent, computed } from 'vue';
+  import { ref, defineComponent, computed, toRefs } from 'vue';
   
   export default defineComponent({
     name: 'GameQuizSlide',
@@ -46,23 +53,34 @@
       const userInput = ref('');
       const currentHintIndex = ref(0);
       const hints = ref(['Éditeur', 'Plateforme']); // Remplacer par les indices réels
+      const answerFound = ref(false);
 
       const isFirstSlide = computed(() => {
         return props.slideIndex === 0;
       });
+
+      const isAnswerCorrect = ref(false);
+      const errorMessage = ref('');
   
       const submitAnswer = () => {
-        if (props.onAnswer) {
-          props.onAnswer(userInput.value);
+        if (userInput.value.toLowerCase() === props.game.name.toLowerCase()) {
+          isAnswerCorrect.value = true;
+          errorMessage.value = "";
+          answerFound.value = true;
+          if (props.onAnswer) {
+            props.onAnswer(true);
+          }
+        } else {
+          isAnswerCorrect.value = false;
+          errorMessage.value = "La réponse est incorrecte. Veuillez réessayer.";
         }
-        userInput.value = '';
+        userInput.value = "";
       };
   
       const skipQuestion = () => {
         if (props.onSkip) {
           props.onSkip();
         }
-        userInput.value = '';
       };
 
       const lastQuestion = () => {
@@ -86,6 +104,9 @@
         currentHintIndex,
         hints,
         isFirstSlide,
+        isAnswerCorrect,
+        errorMessage,
+        answerFound,
         submitAnswer,
         skipQuestion,
         lastQuestion,
@@ -133,4 +154,9 @@
     flex: 1;
     margin: 0 0.5rem;
   }
+
+  .correct-answer {
+    border: 5px solid green;
+  }
+
   </style>

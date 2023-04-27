@@ -7,7 +7,7 @@
         :slideIndex="currentSlideIndex"
         :isLastSlide="currentSlideIndex === games.length - 1"
         v-show="index === currentSlideIndex"
-        :on-answer="onNextSlide"
+        :on-answer="onAnswer"
         :on-skip="onNextSlide"
         :on-prev="onPrevSlide"
         :on-finish="handleFinish"
@@ -33,12 +33,19 @@ export default defineComponent({
   },
   setup() {
     const currentSlideIndex = ref(0);
-
+    const completedSlides = ref<number[]>([]);
     const games: Ref<Game[]> = ref([]);
 
     onMounted(async () => {
       games.value = await getRandomGames();
     });
+
+    const onAnswer = (correct: boolean) => {
+      if (correct) {
+        completedSlides.value.push(currentSlideIndex.value);
+      }
+      onNextSlide();
+    };
 
     const onNextSlide = () => {
       currentSlideIndex.value++;
@@ -55,9 +62,11 @@ export default defineComponent({
     return {
       games,
       currentSlideIndex,
+      onAnswer,
       onNextSlide,
       onPrevSlide,
       handleFinish,
+      completedSlides,
     };
   },
 });
