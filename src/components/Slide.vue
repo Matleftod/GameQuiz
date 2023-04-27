@@ -1,26 +1,28 @@
 <template>
     <div class="slide" :class="{ 'correct-answer': isAnswerCorrect }">
         <!-- Afficher l'indice principal -->
-        <h2>{{ game.name }}</h2>
+        <!--<h2>{{ game.name }}</h2>-->
         <img :src="game.screenshot" alt="Screenshot" v-if="game.screenshot" class="game-screenshot"/>
-        <div class="buttons">
-            <button v-if="!isFirstSlide" @click="lastQuestion">Précédente</button>
-            <div v-if="errorMessage">{{ errorMessage }}</div>
-
-            <template v-if="!answerFound">
+        <div class="error_msg">
+          <div v-if="errorMessage">{{ errorMessage }}</div>
+        </div>
+        <div class="answer">
+          <template v-if="!answerFound">
               <input type="text" v-model="userInput" placeholder="Entrez le titre du jeu">
               <button @click="submitAnswer">Valider</button>
             </template>
-            <div v-else>{{ game.name }}</div>
+            <h2 v-else>{{ game.name }}</h2>
+        </div>
+        <div class="hint">
+            <button class="hint_btn" @click="showHint">Indice</button>
+            <div v-if="currentHintIndex >= 1">{{ hints[0] }}</div>
+            <div v-if="currentHintIndex >= 2">{{ hints[1] }}</div>
+        </div>
+        <div class="buttons">
+            <button v-if="!isFirstSlide" @click="lastQuestion">Précédente</button>
 
             <button v-if="!isLastSlide" @click="skipQuestion">Passer</button>
             <button v-else @click="finishQuiz">Terminer</button>
-            
-        
-            <!-- Afficher les indices -->
-            <button @click="showHint">Afficher un indice supplémentaire</button>
-            <div v-if="currentHintIndex >= 1">{{ hints[0] }}</div>
-            <div v-if="currentHintIndex >= 2">{{ hints[1] }}</div>
         </div>
     </div>
   </template>
@@ -52,8 +54,8 @@
       const userInput = ref('');
       const currentHintIndex = ref(0);
       const hints = ref([
-        `Éditeur: ${props.game.editor}`,
-        `Plateforme: ${props.game.platform}`,
+        `Éditeur : ${props.game.editor}`,
+        `Plateforme : ${props.game.platform}`,
       ]);      
       const answerFound = ref(false);
 
@@ -127,6 +129,7 @@
     justify-content: center;
     min-height: 100vh;
     text-align: center;
+    color: white;
   }
   
   h2 {
@@ -142,23 +145,27 @@
     width: 100%;
     max-width: 800px;
     height: auto;
-    margin-bottom: 1rem;
-  }
-  
-  .buttons {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    max-width: 300px;
+    margin-bottom: 6rem;
   }
   
   button {
     flex: 1;
     margin: 0 0.5rem;
   }
+.hint_btn, .error_msg, .answer, .hint{
+  margin-bottom: 15px;
+}
+/*.error_msg{
+}
+.answer{
+}
+.hint{
+}
+.buttons{
 
+}*/
   .correct-answer {
-    border: 5px solid green;
+    color: green;
   }
 
   </style>
