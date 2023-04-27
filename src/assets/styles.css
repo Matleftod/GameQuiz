@@ -7,14 +7,24 @@
   }
 }
 
+.bg{
+  display: flex;
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
 .gradient {
   --size: 250px;
   --speed: 50s;
   --easing: cubic-bezier(0.8, 0.2, 0.2, 0.8);
 
-  position: absolute;
   width: var(--size);
   height: var(--size);
+  margin: auto;
   filter: blur(calc(var(--size) / 5));
   background-image: linear-gradient(hsl(158, 82%, 57%, 85%), hsl(252, 82%, 57%));
   animation: rotate var(--speed) var(--easing) alternate infinite;
@@ -31,11 +41,10 @@ body {
   font-family: "Roboto", sans-serif;
   color: #333;
   background-color: #222;
-  position: absolute;
-  inset: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 100vh;
   overflow: hidden;
 }
 
@@ -51,7 +60,7 @@ body {
 }
 
 button {
-  background-color: #5c6bc0;
+  background-color: #575757;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -61,6 +70,5 @@ button {
 }
   
 button:hover { 
-  background-color: #3f51b5;
+  background-color: #535456;
 }
-  

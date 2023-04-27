@@ -45,7 +45,7 @@ h1 {
 
 .start-button {
   display: inline-block;
-  background-color: #3f51b5;
+  background-color: #333;
   color: white;
   padding: 10px 20px;
   border-radius: 4px;
@@ -54,6 +54,6 @@ h1 {
 }
 
 .start-button:hover {
-  background-color: #536dfe;
+  background-color: #444444;
 }
 </style>
