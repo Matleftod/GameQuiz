@@ -45,7 +45,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  overflow: hidden;
+  margin: 0px;
 }
 
 /* This is just to transition when you change the viewport size. */

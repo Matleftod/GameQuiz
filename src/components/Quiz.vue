@@ -40,9 +40,18 @@ export default defineComponent({
     const completedSlides = ref<number[]>([]);
     const games: Ref<Game[]> = ref([]);
     const correctAnswers = ref(0);
+    const gameStore = useGameStore();
+
+    const loadGames = async () => {
+      const randomGames = await getRandomGames();
+    };
+
+    onMounted(loadGames);
 
     onMounted(async () => {
-      games.value = await getRandomGames();
+      const randomGames = await getRandomGames();
+      games.value = randomGames
+      gameStore.setGames(randomGames);
     });
 
     const onAnswer = (correct: boolean) => {
