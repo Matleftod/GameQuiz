@@ -9,7 +9,7 @@
 
             <template v-if="!answerFound">
               <input type="text" v-model="userInput" placeholder="Entrez le titre du jeu">
-              <button @click="submitAnswer">Soumettre</button>
+              <button @click="submitAnswer">Valider</button>
             </template>
             <div v-else>{{ game.name }}</div>
 
@@ -21,7 +21,6 @@
             <button @click="showHint">Afficher un indice supplémentaire</button>
             <div v-if="currentHintIndex >= 1">{{ hints[0] }}</div>
             <div v-if="currentHintIndex >= 2">{{ hints[1] }}</div>
-            <!-- ... -->
         </div>
     </div>
   </template>
@@ -52,7 +51,10 @@
     setup(props) {
       const userInput = ref('');
       const currentHintIndex = ref(0);
-      const hints = ref(['Éditeur', 'Plateforme']); // Remplacer par les indices réels
+      const hints = ref([
+        `Éditeur: ${props.game.editor}`,
+        `Plateforme: ${props.game.platform}`,
+      ]);      
       const answerFound = ref(false);
 
       const isFirstSlide = computed(() => {

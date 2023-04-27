@@ -24,10 +24,12 @@ interface Game {
   id: number;
   name: string;
   screenshot: string | null;
+  editor: string;
+  platform: string;
 }
 
 export default defineComponent({
-    name: 'GameQuiz',
+  name: 'GameQuiz',
   components: {
     GameQuizSlide,
   },
@@ -38,6 +40,7 @@ export default defineComponent({
 
     onMounted(async () => {
       games.value = await getRandomGames();
+      console.log(await getRandomGames())
     });
 
     const onAnswer = (correct: boolean) => {
