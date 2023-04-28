@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const apiKey = 'c043f5c788a7484bbc5faa7cbc26976d';
+const apiKey = "c043f5c788a7484bbc5faa7cbc26976d";
 
 interface Game {
   id: number;
@@ -23,10 +23,10 @@ export async function getRandomGames(limit = 30): Promise<Game[]> {
       `https://api.rawg.io/api/games/${gameId}?key=${apiKey}`
     );
 
-    const editor = gameDetailsResponse.data.publishers[0]?.name || 'Inconnu';
+    const editor = gameDetailsResponse.data.publishers[0]?.name || "Inconnu";
     const platformNames = gameDetailsResponse.data.parent_platforms
       .map((parent_platform: any) => parent_platform.platform.name)
-      .join(', ');
+      .join(", ");
 
     return {
       id: gameId,
@@ -42,10 +42,10 @@ export async function getRandomGames(limit = 30): Promise<Game[]> {
 }
 
 export async function getPopularGames(
-    limit = 12,
-    page = 1,
-    search = ''
-  ): Promise<Game[]> {
+  limit = 12,
+  page = 1,
+  search = ""
+): Promise<Game[]> {
   const response = await axios.get(
     `https://api.rawg.io/api/games?key=${apiKey}&page=${page}&page_size=${limit}&search=${search}`
   );
@@ -56,10 +56,10 @@ export async function getPopularGames(
       `https://api.rawg.io/api/games/${gameId}?key=${apiKey}`
     );
 
-    const editor = gameDetailsResponse.data.publishers[0]?.name || 'Inconnu';
+    const editor = gameDetailsResponse.data.publishers[0]?.name || "Inconnu";
     const platformNames = gameDetailsResponse.data.parent_platforms
       .map((parent_platform: any) => parent_platform.platform.name)
-      .join(', ');
+      .join(", ");
 
     return {
       id: gameId,
@@ -72,7 +72,3 @@ export async function getPopularGames(
 
   return Promise.all(gamePromises);
 }
-
-
-
-

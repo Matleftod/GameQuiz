@@ -16,11 +16,11 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, onMounted, Ref } from 'vue';
-import GameQuizSlide from './Slide.vue';
-import { getRandomGames } from '../api/rawg';
-import router from '@/router';
-import { useGameStore } from '../stores/gameStore';
+import { ref, defineComponent, onMounted, Ref } from "vue";
+import GameQuizSlide from "./Slide.vue";
+import { getRandomGames } from "../api/rawg";
+import router from "@/router";
+import { useGameStore } from "../stores/gameStore";
 
 interface Game {
   id: number;
@@ -31,7 +31,7 @@ interface Game {
 }
 
 export default defineComponent({
-  name: 'GameQuiz',
+  name: "GameQuiz",
   components: {
     GameQuizSlide,
   },
@@ -50,7 +50,7 @@ export default defineComponent({
 
     onMounted(async () => {
       const randomGames = await getRandomGames();
-      games.value = randomGames
+      games.value = randomGames;
       gameStore.setGames(randomGames);
     });
 
@@ -59,7 +59,9 @@ export default defineComponent({
         completedSlides.value.push(currentSlideIndex.value);
         correctAnswers.value++;
       }
-      onNextSlide();
+      if (currentSlideIndex.value !== games.value.length - 1) {
+        onNextSlide();
+      }
     };
 
     const onNextSlide = () => {
@@ -72,12 +74,11 @@ export default defineComponent({
 
     const showResults = () => {
       const gameStore = useGameStore();
-      gameStore.setCorrectAnswers(correctAnswers.value);      
+      gameStore.setCorrectAnswers(correctAnswers.value);
       router.push({
-        name: 'Result',
+        name: "Result",
       });
     };
-
 
     return {
       games,
@@ -92,7 +93,7 @@ export default defineComponent({
   },
 });
 </script>
-  
+
 <style scoped>
 .quiz {
   display: flex;

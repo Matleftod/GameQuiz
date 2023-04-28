@@ -1,7 +1,7 @@
-import { defineStore } from 'pinia';
-import { Game } from '@/types';
+import { defineStore } from "pinia";
+import { Game } from "@/types";
 
-export const useGameStore = defineStore('game', {
+export const useGameStore = defineStore("game", {
   // État
   state: () => ({
     correctAnswers: 0,

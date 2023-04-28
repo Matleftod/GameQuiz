@@ -6,12 +6,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from 'vue';
-import { useGameStore } from '../stores/gameStore';
-import { useRouter } from 'vue-router';
+import { defineComponent, computed } from "vue";
+import { useGameStore } from "../stores/gameStore";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
-  name: 'QuizResult',
+  name: "QuizResult",
   setup() {
     const gameStore = useGameStore();
     const correctAnswers = computed(() => gameStore.correctAnswers);
@@ -19,7 +19,7 @@ export default defineComponent({
 
     const goToGameList = () => {
       router.push({
-        name: 'GameList',
+        name: "GameList",
       });
     };
 
@@ -32,7 +32,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.result{
+.result {
   color: white;
   text-align: center;
 }
